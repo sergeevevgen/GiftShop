@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GiftShopBusinessLogic\GiftShopBusinessLogic.csproj" />
     <ProjectReference Include="..\GiftShopContracts\GiftShopContracts.csproj" />
+    <ProjectReference Include="..\GiftShopFileImplement\GiftShopFileImplement.csproj" />
   </ItemGroup>
 
 </Project>

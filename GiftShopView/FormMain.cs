@@ -11,10 +11,10 @@ namespace GiftShopView
     {
         private readonly OrderLogic orderLogic;
         private readonly IReportLogic _reportLogic;
-        public FormMain(OrderLogic Logic, IReportLogic reportLogic)
+        public FormMain(OrderLogic logic, IReportLogic reportLogic)
         {
             InitializeComponent();
-            this.orderLogic = Logic;
+            orderLogic = logic;
             _reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
@@ -31,8 +31,9 @@ namespace GiftShopView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    
+                    dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -138,5 +139,10 @@ namespace GiftShopView
             form.ShowDialog();
         }
 
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
     }
 }

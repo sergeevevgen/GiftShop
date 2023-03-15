@@ -4,20 +4,23 @@ using GiftShopContracts.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using GiftShopContracts.ViewModels;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
     public partial class FormCreateOrder : Form
     {
 
-        private readonly GiftLogic _logicP;
-        private readonly OrderLogic _logicO;
+        private readonly IGiftLogic _logicP;
+        private readonly IOrderLogic _logicO;
+        private readonly IClientLogic _logicC;
 
-        public FormCreateOrder(GiftLogic logicP, OrderLogic logicO)
+        public FormCreateOrder(IGiftLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
             _logicP = logicP;
             _logicO = logicO;
+            _logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
@@ -25,14 +28,21 @@ namespace GiftShopView
             try
             {
                 var list = _logicP.Read(null);
-                foreach (var p in list) 
+                if (list != null)
                 {
+                    comboBoxGift.DataSource = list;
                     comboBoxGift.DisplayMember = "GiftName";
                     comboBoxGift.ValueMember = "Id";
-                    comboBoxGift.DataSource = list;
                     comboBoxGift.SelectedItem = null;
                 }
-
+                var list2 = _logicC.Read(null);
+                if (list2 != null)
+                {
+                    comboBoxClient.DataSource = list2;
+                    comboBoxClient.DisplayMember = "ClientFIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.SelectedItem = null;
+                }
             }
             catch (Exception ex)
             {
@@ -80,11 +90,17 @@ namespace GiftShopView
                 MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 _logicO.CreateOrder(new CreateOrderBindingModel
                 {
                     GiftId = Convert.ToInt32(comboBoxGift.SelectedValue),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });

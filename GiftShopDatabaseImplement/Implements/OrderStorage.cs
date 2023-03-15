@@ -14,7 +14,10 @@ namespace GiftShopDatabaseImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             using var context = new GiftShopDatabase();
-            return context.Orders.Select(CreateModel).ToList();
+            return context.Orders
+                .Include(rec => rec.Gift)
+                .Include(rec => rec.Client)
+                .Select(CreateModel).ToList();
         }
 
         public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
@@ -25,9 +28,11 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using var context = new GiftShopDatabase();
             return context.Orders
-                .Where(rec => rec.Id.Equals(model.Id)
-                || rec.DateCreate.Date >= model.DateFrom.Value.Date
-                && rec.DateCreate.Date <= model.DateTo.Value.Date)
+                .Include(rec => rec.Gift)
+                .Include(rec => rec.Client)
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+            (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+            (model.ClientId.HasValue && rec.ClientId == model.ClientId))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -41,7 +46,9 @@ namespace GiftShopDatabaseImplement.Implements
             }
             using var context = new GiftShopDatabase();
             var order = context.Orders
-            .FirstOrDefault(rec => rec.Id == model.Id);
+                .Include(rec => rec.Gift)
+                .Include(rec => rec.Client)
+                .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
 
@@ -82,6 +89,7 @@ namespace GiftShopDatabaseImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.GiftId = model.GiftId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -92,12 +100,13 @@ namespace GiftShopDatabaseImplement.Implements
 
         private static OrderViewModel CreateModel(Order order)
         {
-            using var context = new GiftShopDatabase();
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = order.Client.ClientFIO,
                 GiftId = order.GiftId,
-                GiftName = context.Gifts.Include(x => x.Order).FirstOrDefault(x => x.Id == order.GiftId)?.GiftName,
+                GiftName = order.Gift.GiftName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status.ToString(),

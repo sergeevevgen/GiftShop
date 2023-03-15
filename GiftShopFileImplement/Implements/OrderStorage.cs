@@ -16,19 +16,17 @@ namespace GiftShopFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance();
         }
-
-        public List<OrderViewModel> GetFullList()
+        public void Delete(OrderBindingModel model)
         {
-            return source.Orders.Select(CreateModel).ToList();
-        }
-
-        public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
-        {
-            if (model == null)
+            Order element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+            if (element != null)
             {
-                return null;
+                source.Orders.Remove(element);
             }
-            return source.Orders.Where(rec => rec.GiftId.ToString().Contains(model.GiftId.ToString())).Select(CreateModel).ToList();
+            else
+            {
+                throw new Exception("Элемент не найден");
+            }
         }
 
         public OrderViewModel GetElement(OrderBindingModel model)
@@ -37,15 +35,40 @@ namespace GiftShopFileImplement.Implements
             {
                 return null;
             }
-            var order = source.Orders.FirstOrDefault(rec => rec.GiftId == model.GiftId || rec.Id == model.Id);
+
+            var order = source.Orders
+                .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
+        }
+
+        public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+
+            return source.Orders
+                .Where(rec => rec.Id.Equals(model.Id)
+                || rec.DateCreate >= model.DateFrom
+                && rec.DateCreate <= model.DateTo ||
+                model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                .Select(CreateModel)
+                .ToList();
+        }
+
+        public List<OrderViewModel> GetFullList()
+        {
+            return source.Orders
+                .Select(CreateModel)
+                .ToList();
         }
 
         public void Insert(OrderBindingModel model)
         {
             int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
-            var order = new Order { Id = maxId + 1 };
-            source.Orders.Add(CreateModel(model, order));
+            var element = new Order { Id = maxId + 1 };
+            source.Orders.Add(CreateModel(model, element));
         }
 
         public void Update(OrderBindingModel model)
@@ -53,27 +76,15 @@ namespace GiftShopFileImplement.Implements
             var element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
             if (element == null)
             {
-                throw new Exception("Заказ не найден");
+                throw new Exception("Элемент не найден");
             }
             CreateModel(model, element);
         }
 
-        public void Delete(OrderBindingModel model)
-        {
-            Order order = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-            if (order != null)
-            {
-                source.Orders.Remove(order);
-            }
-            else
-            {
-                throw new Exception("Заказ не найден");
-            }
-        }
-
-        private Order CreateModel(OrderBindingModel model, Order order)
+        private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.GiftId = model.GiftId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -87,6 +98,8 @@ namespace GiftShopFileImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.Id)?.ClientFIO,
                 GiftId = order.GiftId,
                 GiftName = source.Gifts.FirstOrDefault(rec => rec.Id == order.GiftId)?.GiftName,
                 Count = order.Count,

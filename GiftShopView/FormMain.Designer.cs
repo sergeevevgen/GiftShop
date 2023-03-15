@@ -43,6 +43,7 @@ namespace GiftShopView
             this.buttonPayOrder = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.клиентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +64,8 @@ namespace GiftShopView
             // 
             this.DirectoriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ComponentsToolStripMenuItem,
-            this.ProductsToolStripMenuItem});
+            this.ProductsToolStripMenuItem,
+            this.клиентыToolStripMenuItem});
             this.DirectoriesToolStripMenuItem.Name = "DirectoriesToolStripMenuItem";
             this.DirectoriesToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.DirectoriesToolStripMenuItem.Text = "Справочники";
@@ -71,14 +73,14 @@ namespace GiftShopView
             // ComponentsToolStripMenuItem
             // 
             this.ComponentsToolStripMenuItem.Name = "ComponentsToolStripMenuItem";
-            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ComponentsToolStripMenuItem.Text = "Компоненты";
             this.ComponentsToolStripMenuItem.Click += new System.EventHandler(this.ComponentsToolStripMenuItem_Click);
             // 
             // ProductsToolStripMenuItem
             // 
             this.ProductsToolStripMenuItem.Name = "ProductsToolStripMenuItem";
-            this.ProductsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.ProductsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ProductsToolStripMenuItem.Text = "Изделия";
             this.ProductsToolStripMenuItem.Click += new System.EventHandler(this.ProductsToolStripMenuItem_Click);
             // 
@@ -183,6 +185,13 @@ namespace GiftShopView
             this.dataGridView.Size = new System.Drawing.Size(796, 370);
             this.dataGridView.TabIndex = 6;
             // 
+            // клиентыToolStripMenuItem
+            // 
+            this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
+            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.клиентыToolStripMenuItem.Text = "Клиенты";
+            this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -225,5 +234,6 @@ namespace GiftShopView
         private System.Windows.Forms.ToolStripMenuItem списокПодарковToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem подаркиСКомпонентамиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
     }
 }

@@ -58,7 +58,11 @@ namespace GiftShopDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                Gift gift = CreateModel(model, new Gift());
+                Gift gift = new Gift
+                {
+                    GiftName = model.GiftName,
+                    Price = model.Price
+                };
                 context.Gifts.Add(gift);
                 context.SaveChanges();
                 CreateModel(model, gift, context);
@@ -155,8 +159,8 @@ namespace GiftShopDatabaseImplement.Implements
                 GiftName = gift.GiftName,
                 Price = gift.Price,
                 GiftComponents = gift.GiftComponents
-            .ToDictionary(recPC => recPC.ComponentId,
-            recPC => (recPC.Component?.ComponentName, recPC.Count))
+                .ToDictionary(recPC => recPC.ComponentId,
+                recPC => (recPC.Component?.ComponentName, recPC.Count))
             };
         }
     }

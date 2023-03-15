@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31313.79
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopView", "GiftShopView\GiftShopView.csproj", "{99C786DE-6A76-47F1-97CE-1FC0838FE239}"
 EndProject
@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopListImplement", "Gi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopFileImplement", "GiftShopFileImplement\GiftShopFileImplement.csproj", "{2FE59D81-EEA5-42D1-B35D-20F8A242013E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopDatabaseImplement", "GiftShopDatabaseImplement\GiftShopDatabaseImplement.csproj", "{93736326-7ED1-468E-B34A-94B8938142A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopDatabaseImplement", "GiftShopDatabaseImplement\GiftShopDatabaseImplement.csproj", "{93736326-7ED1-468E-B34A-94B8938142A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopRestApi", "GiftShopRestApi\GiftShopRestApi.csproj", "{63D01896-C86E-484C-A32D-6BF672234EF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopClientApp", "GiftShopClientApp\GiftShopClientApp.csproj", "{AB3A80BC-3EAE-426B-AECE-D9BC3D3370DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{93736326-7ED1-468E-B34A-94B8938142A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93736326-7ED1-468E-B34A-94B8938142A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93736326-7ED1-468E-B34A-94B8938142A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D01896-C86E-484C-A32D-6BF672234EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D01896-C86E-484C-A32D-6BF672234EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D01896-C86E-484C-A32D-6BF672234EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D01896-C86E-484C-A32D-6BF672234EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB3A80BC-3EAE-426B-AECE-D9BC3D3370DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3A80BC-3EAE-426B-AECE-D9BC3D3370DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3A80BC-3EAE-426B-AECE-D9BC3D3370DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3A80BC-3EAE-426B-AECE-D9BC3D3370DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
