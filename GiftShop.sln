@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopView", "GiftShopView\GiftShopView.csproj", "{99C786DE-6A76-47F1-97CE-1FC0838FE239}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopContracts", "GiftShopContracts\GiftShopContracts.csproj", "{D2E90C5C-E682-4B4A-A54C-1E91ABE9CDC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopBusinessLogic", "GiftShopBusinessLogic\GiftShopBusinessLogic.csproj", "{EC5BA321-4C64-4574-B021-9D72CDE0E3DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopListImplement", "GiftShopListImplement\GiftShopListImplement.csproj", "{B4584BEB-7D5B-437C-9128-BFEA0570FA57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftShopFileImplement", "GiftShopFileImplement\GiftShopFileImplement.csproj", "{2FE59D81-EEA5-42D1-B35D-20F8A242013E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftShopDatabaseImplement", "GiftShopDatabaseImplement\GiftShopDatabaseImplement.csproj", "{93736326-7ED1-468E-B34A-94B8938142A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99C786DE-6A76-47F1-97CE-1FC0838FE239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C786DE-6A76-47F1-97CE-1FC0838FE239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C786DE-6A76-47F1-97CE-1FC0838FE239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C786DE-6A76-47F1-97CE-1FC0838FE239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E90C5C-E682-4B4A-A54C-1E91ABE9CDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E90C5C-E682-4B4A-A54C-1E91ABE9CDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E90C5C-E682-4B4A-A54C-1E91ABE9CDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E90C5C-E682-4B4A-A54C-1E91ABE9CDC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC5BA321-4C64-4574-B021-9D72CDE0E3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC5BA321-4C64-4574-B021-9D72CDE0E3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC5BA321-4C64-4574-B021-9D72CDE0E3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC5BA321-4C64-4574-B021-9D72CDE0E3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4584BEB-7D5B-437C-9128-BFEA0570FA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4584BEB-7D5B-437C-9128-BFEA0570FA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4584BEB-7D5B-437C-9128-BFEA0570FA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4584BEB-7D5B-437C-9128-BFEA0570FA57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE59D81-EEA5-42D1-B35D-20F8A242013E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE59D81-EEA5-42D1-B35D-20F8A242013E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE59D81-EEA5-42D1-B35D-20F8A242013E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE59D81-EEA5-42D1-B35D-20F8A242013E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93736326-7ED1-468E-B34A-94B8938142A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93736326-7ED1-468E-B34A-94B8938142A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93736326-7ED1-468E-B34A-94B8938142A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93736326-7ED1-468E-B34A-94B8938142A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98C1BA5A-048E-4412-8BF1-F81701ACB54A}
+	EndGlobalSection
+EndGlobal
