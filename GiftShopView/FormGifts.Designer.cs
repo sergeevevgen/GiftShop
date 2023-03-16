@@ -41,12 +41,9 @@ namespace GiftShopView
             // 
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.ColumnHeadersVisible = false;
             this.dataGridView.Location = new System.Drawing.Point(1, 2);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.ReadOnly = true;
-            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(569, 517);

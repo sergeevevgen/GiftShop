@@ -5,10 +5,6 @@ namespace GiftShopContracts.ViewModels
 {
     public class GiftViewModel
     {
-        /// <summary>
-        /// Изделие, изготавливаемое в магазине
-        /// </summary>
-
 
         public int Id { get; set; }
         [DisplayName("Название изделия")]

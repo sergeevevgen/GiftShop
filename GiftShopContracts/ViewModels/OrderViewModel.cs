@@ -14,10 +14,15 @@ namespace GiftShopContracts.ViewModels
 
         public int ClientId { get; set; }
 
+        public int? ImplementerId { get; set; }
+
         public int GiftId { get; set; }
 
         [DisplayName("Клиент")]
         public string ClientFIO { get; set; }
+
+        [DisplayName("Сборщик")]
+        public string ImplementerFIO { get; set; }
 
         [DisplayName("Изделие")]
         public string GiftName { get; set; }

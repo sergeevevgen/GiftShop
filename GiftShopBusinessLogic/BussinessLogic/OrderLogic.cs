@@ -58,6 +58,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 ClientId = order.ClientId,
+                ImplementerId = model.ImplementerId,
                 GiftId = order.GiftId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -83,6 +84,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 Id = order.Id,
                 ClientId = order.ClientId,
                 GiftId = order.GiftId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -107,6 +109,7 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 Id = order.Id,
                 ClientId = order.ClientId,
                 GiftId = order.GiftId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,

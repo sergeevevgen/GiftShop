@@ -20,6 +20,8 @@ namespace GiftShopFileImplement
 
         private readonly string ClientFileName = "Client.xml";
 
+        private readonly string ImplementerFileName = "Implementer.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -28,12 +30,15 @@ namespace GiftShopFileImplement
 
         public List<Client> Clients { get; set; }
 
+        public List<Implementer> Implementers { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Gifts = LoadGifts();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -51,6 +56,7 @@ namespace GiftShopFileImplement
             instance.SaveOrders();
             instance.SaveGifts();
             instance.SaveClients();
+            instance.SaveImplementers();
         }
 
         private List<Component> LoadComponents()
@@ -77,43 +83,21 @@ namespace GiftShopFileImplement
             var list = new List<Order>();
             if (File.Exists(OrderFileName))
             {
-                XDocument xDocument = XDocument.Load(OrderFileName);
+                var xDocument = XDocument.Load(OrderFileName);
                 var xElements = xDocument.Root.Elements("Order").ToList();
                 foreach (var elem in xElements)
                 {
-                    OrderStatus orderStatus = 0;
-                    DateTime? dateImplement = null;
-
-                    if (elem.Element("DateImplement").Value != "")
-                    {
-                        dateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value);
-                    }
-
-                    switch (elem.Element("Status").Value)
-                    {
-                        case "Accepted":
-                            orderStatus = OrderStatus.Принят;
-                            break;
-                        case "Performed":
-                            orderStatus = OrderStatus.Выполняется;
-                            break;
-                        case "Ready":
-                            orderStatus = OrderStatus.Готов;
-                            break;
-                        case "Paid":
-                            orderStatus = OrderStatus.Выдан;
-                            break;
-                    }
-
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        GiftId = Convert.ToInt32(elem.Element("GiftId").Value),
+                        GiftId = Convert.ToInt32(elem.Element("DishId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        ImplementerId = elem.Element("ImplementerId").IsEmpty ? null : Convert.ToInt32(elem.Element("ImplementerId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                        Status = orderStatus,
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        DateImplement = dateImplement
+                        DateImplement = elem.Element("DateImplement").IsEmpty ? null : Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
                 }
             }
@@ -167,6 +151,27 @@ namespace GiftShopFileImplement
             return list;
         }
 
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                var xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value),
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value)
+                    });
+                }
+            }
+            return list;
+        }
+
         private void SaveComponents()
         {
             if (Components != null)
@@ -191,15 +196,17 @@ namespace GiftShopFileImplement
                 foreach (var order in Orders)
                 {
                     xElement.Add(new XElement("Order",
-                    new XAttribute("Id", order.Id),
-                    new XElement("GiftId", order.GiftId),
-                    new XElement("Count", order.Count),
-                    new XElement("Sum", order.Sum),
-                    new XElement("Status", order.Status),
-                    new XElement("DateCreate", order.DateCreate),
-                    new XElement("DateImplement", order.DateImplement)));
+                        new XAttribute("Id", order.Id),
+                        new XElement("DishId", order.GiftId),
+                        new XElement("ClientId", order.ClientId),
+                        new XElement("ImplementerId", order.ImplementerId),
+                        new XElement("Count", order.Count),
+                        new XElement("Sum", order.Sum),
+                        new XElement("Status", order.Status),
+                        new XElement("DateCreate", order.DateCreate),
+                        new XElement("DateImplement", order.DateImplement)));
                 }
-                XDocument xDocument = new XDocument(xElement);
+                var xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);
             }
         }
@@ -246,6 +253,24 @@ namespace GiftShopFileImplement
                 }
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ClientFileName);
+            }
+        }
+
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                        new XAttribute("Id", implementer.Id),
+                        new XElement("FIO", implementer.FIO),
+                        new XElement("PauseTime", implementer.PauseTime),
+                        new XElement("WorkingTime", implementer.WorkingTime)));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
             }
         }
     }

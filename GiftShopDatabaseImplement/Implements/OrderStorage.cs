@@ -17,6 +17,7 @@ namespace GiftShopDatabaseImplement.Implements
             return context.Orders
                 .Include(rec => rec.Gift)
                 .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
                 .Select(CreateModel).ToList();
         }
 
@@ -30,9 +31,12 @@ namespace GiftShopDatabaseImplement.Implements
             return context.Orders
                 .Include(rec => rec.Gift)
                 .Include(rec => rec.Client)
-                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
-            (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
-            (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                .Include(rec => rec.Implementer)
+                .Where(rec => rec.Id.Equals(model.Id) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -48,6 +52,7 @@ namespace GiftShopDatabaseImplement.Implements
             var order = context.Orders
                 .Include(rec => rec.Gift)
                 .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
                 .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -55,20 +60,40 @@ namespace GiftShopDatabaseImplement.Implements
         public void Insert(OrderBindingModel model)
         {
             using var context = new GiftShopDatabase();
-            context.Orders.Add(CreateModel(model, new Order()));
-            context.SaveChanges();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+                context.Orders.Add(CreateModel(model, new Order()));
+                context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public void Update(OrderBindingModel model)
         {
             using var context = new GiftShopDatabase();
-            var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            using var transaction = context.Database.BeginTransaction();
+            try
             {
-                throw new Exception("Item not found");
+                var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, element);
+                context.SaveChanges();
+                transaction.Commit();
             }
-            CreateModel(model, element);
-            context.SaveChanges();
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public void Delete(OrderBindingModel model)
@@ -90,6 +115,7 @@ namespace GiftShopDatabaseImplement.Implements
         {
             order.GiftId = model.GiftId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -105,6 +131,8 @@ namespace GiftShopDatabaseImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 ClientFIO = order.Client.ClientFIO,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = order.ImplementerId.HasValue ? order.Implementer.FIO : string.Empty,
                 GiftId = order.GiftId,
                 GiftName = order.Gift.GiftName,
                 Count = order.Count,

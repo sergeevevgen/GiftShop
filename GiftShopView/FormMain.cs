@@ -9,31 +9,42 @@ namespace GiftShopView
 {
     public partial class FormMain : Form
     {
-        private readonly OrderLogic orderLogic;
+        private readonly IOrderLogic _orderLogic;
+
         private readonly IReportLogic _reportLogic;
-        public FormMain(OrderLogic logic, IReportLogic reportLogic)
+
+        private readonly IImplementerLogic _implementerLogic;
+
+        private readonly IWorkProcess _workProcess;
+        public FormMain(IOrderLogic logic, IReportLogic reportLogic,
+            IImplementerLogic implementerLogic, IWorkProcess workProcess)
         {
             InitializeComponent();
-            orderLogic = logic;
+            _orderLogic = logic;
             _reportLogic = reportLogic;
+            _implementerLogic = implementerLogic;
+            _workProcess = workProcess;
         }
+
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadData();
         }
+
         private void LoadData()
         {
             try
             {
-                var list = orderLogic.Read(null);
+                var list = _orderLogic.Read(null);
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -64,7 +75,7 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    orderLogic.TakeOrderInWork(new ChangeStatusBindingModel { OrderId = id });
+                    _orderLogic.TakeOrderInWork(new ChangeStatusBindingModel { OrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -81,7 +92,7 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    orderLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = id });
+                    _orderLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -98,7 +109,7 @@ namespace GiftShopView
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {
-                    orderLogic.PayOrder(new ChangeStatusBindingModel { OrderId = id });
+                    _orderLogic.PayOrder(new ChangeStatusBindingModel { OrderId = id });
                     LoadData();
                 }
                 catch (Exception ex)
@@ -142,6 +153,17 @@ namespace GiftShopView
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _workProcess.DoWork(_implementerLogic, _orderLogic);
+        }
+
+        private void сборщикиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
     }
