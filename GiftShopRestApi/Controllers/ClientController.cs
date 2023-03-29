@@ -10,9 +10,12 @@ namespace GiftShopRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientLogic _logic;
-        public ClientController(IClientLogic logic)
+        private readonly IMessageInfoLogic _messageLogic;
+
+        public ClientController(IClientLogic logic, IMessageInfoLogic messageInfoLogic)
         {
             _logic = logic;
+            _messageLogic = messageInfoLogic;
         }
 
         [HttpGet]
@@ -28,10 +31,14 @@ namespace GiftShopRestApi.Controllers
 
         [HttpPost]
         public void Register(ClientBindingModel model) =>
-        _logic.CreateOrUpdate(model);
+            _logic.CreateOrUpdate(model);
 
         [HttpPost]
         public void UpdateData(ClientBindingModel model) =>
-        _logic.CreateOrUpdate(model);
+            _logic.CreateOrUpdate(model);
+
+        [HttpGet]
+        public List<MessageInfoViewModel> GetClientsMessages(int clientid) =>
+            _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientid });
     }
 }

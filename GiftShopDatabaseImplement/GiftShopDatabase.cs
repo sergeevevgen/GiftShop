@@ -17,6 +17,7 @@ namespace GiftShopDatabaseImplement
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().Property(m => m.ImplementerId).IsRequired(false);
+            modelBuilder.Entity<MessageInfo>().Property(p => p.ClientId).IsRequired(false);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -26,5 +27,6 @@ namespace GiftShopDatabaseImplement
         public virtual DbSet<Order> Orders { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
         public virtual DbSet<Implementer> Implementers { set; get; }
+        public virtual DbSet<MessageInfo> MessageInfos { set; get; }
     }
 }

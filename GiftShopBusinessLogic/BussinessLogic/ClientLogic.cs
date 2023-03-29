@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GiftShopBusinessLogic.BussinessLogic
@@ -13,6 +14,8 @@ namespace GiftShopBusinessLogic.BussinessLogic
     public class ClientLogic : IClientLogic
     {
         private readonly IClientStorage _clientStorage;
+        private readonly int _passwordMaxLength = 50;
+        private readonly int _passwordMinLength = 10;
 
         public ClientLogic(IClientStorage clientStorage)
         {
@@ -29,6 +32,18 @@ namespace GiftShopBusinessLogic.BussinessLogic
             if (element != null && element.Id != model.Id)
             {
                 throw new Exception("Уже есть клиент с такой почтой");
+            }
+
+            if (!Regex.IsMatch(model.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            {
+                throw new Exception("В качестве логина должна быть указана почта");
+            }
+
+            if (model.Password.Length > _passwordMaxLength || model.Password.Length <
+            _passwordMinLength || !Regex.IsMatch(model.Password,
+            @"^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$"))
+            {
+                throw new Exception($"Пароль длинной от {_passwordMinLength} до { _passwordMaxLength } должен состоять из цифр, букв и небуквенных символов");
             }
 
             if (model.Id.HasValue)
