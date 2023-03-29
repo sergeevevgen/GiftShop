@@ -151,5 +151,15 @@ namespace GiftShopClientApp.Controllers
             APIClient.GetRequest<GiftViewModel>($"api/main/getgift?giftId={gift}");
             return count * gif.Price;
         }
+
+        [HttpGet]
+        public IActionResult Messages()
+        {
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getclientsmessages?clientId={Program.Client.Id}"));
+        }
     }
 }

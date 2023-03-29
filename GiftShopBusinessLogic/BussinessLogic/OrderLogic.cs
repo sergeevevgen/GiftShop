@@ -5,16 +5,21 @@ using GiftShopContracts.BindingModels;
 using GiftShopContracts.StoragesContracts;
 using GiftShopContracts.BusinessLogicsContracts;
 using GiftShopContracts.ViewModels;
+using GiftShopBusinessLogic.MailWorker;
 
 namespace GiftShopBusinessLogic.BusinessLogic
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientStorage _clientStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        public OrderLogic(IOrderStorage orderStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
+            _clientStorage = clientStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -41,6 +46,15 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = model.ClientId
+                })?.Email,
+                Subject = "Ваш заказ был создан",
+                Text = $"Заказ от {DateTime.Now} на сумму {model.Sum} был создан"
+            });
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -65,6 +79,15 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выполняется
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был принят в работу",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был принят в работу"
             });
         }
 
@@ -91,6 +114,15 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был закончен",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был закончен"
+            });
         }
 
         public void PayOrder(ChangeStatusBindingModel model)
@@ -115,6 +147,15 @@ namespace GiftShopBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Выдан
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel
+                {
+                    Id = order.ClientId
+                })?.Email,
+                Subject = $"Ваш заказ #{order.Id} был доставлен",
+                Text = $"Заказ от {order.DateCreate} на сумму {order.Sum} был доставлен в {DateTime.Now}"
             });
         }
     }

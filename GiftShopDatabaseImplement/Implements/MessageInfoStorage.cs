@@ -42,7 +42,7 @@ namespace GiftShopDatabaseImplement.Implements
                 .FirstOrDefault(rec => rec.MessageId == model.MessageId);
             if (element != null)
             {
-                throw new Exception("Уже есть письмо с таким идентификатором");
+                return;
             }
             context.MessageInfos.Add(new MessageInfo
             {

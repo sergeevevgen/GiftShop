@@ -75,6 +75,25 @@ namespace GiftShopBusinessLogic.MailWorker
                             });
                         }
                     }
+
+                    //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    //client.Connect(_popHost, _popPort, true);
+                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    //client.Authenticate(_mailLogin, _mailPassword);
+                    //var folder = client.GetFolder(MailKit.SpecialFolder.All);
+                    //folder.Open(MailKit.FolderAccess.ReadOnly);
+                    //foreach (var message in folder)
+                    //{
+                    //    list.Add(new MessageInfoBindingModel
+                    //    {
+                    //        ClientId = _clientStorage.GetElement(new ClientBindingModel { Email = message.Sender.Address })?.Id,
+                    //        DateDelivery = message.Date.DateTime,
+                    //        MessageId = message.MessageId,
+                    //        FromMailAddress = message.Sender.Address,
+                    //        Subject = message.Subject,
+                    //        Body = message.Body.ToString()
+                    //    });
+                    //}
                 }
                 finally
                 {

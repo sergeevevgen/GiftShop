@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GiftShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(GiftShopDatabase))]
-    [Migration("20230315211032_Init")]
+    [Migration("20230329131133_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,55 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.ToTable("GiftComponents");
                 });
 
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -112,7 +161,7 @@ namespace GiftShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<int>("Count")
@@ -127,6 +176,9 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.Property<int>("GiftId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -138,6 +190,8 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("GiftId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -161,21 +215,44 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.Navigation("Gift");
                 });
 
-            modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.MessageInfo", b =>
                 {
-                    b.HasOne("GiftShopDatabaseImplement.Models.Client", null)
-                        .WithMany("Orders")
+                    b.HasOne("GiftShopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
                         .HasForeignKey("ClientId");
 
-                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", null)
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
+                {
+                    b.HasOne("GiftShopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GiftShopDatabaseImplement.Models.Gift", "Gift")
                         .WithMany("Order")
                         .HasForeignKey("GiftId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GiftShopDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Gift");
+
+                    b.Navigation("Implementer");
                 });
 
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Client", b =>
                 {
+                    b.Navigation("MessageInfos");
+
                     b.Navigation("Orders");
                 });
 
@@ -189,6 +266,11 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.Navigation("GiftComponents");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

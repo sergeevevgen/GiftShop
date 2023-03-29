@@ -125,6 +125,33 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.ToTable("Implementers");
                 });
 
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -186,6 +213,15 @@ namespace GiftShopDatabaseImplement.Migrations
                     b.Navigation("Gift");
                 });
 
+            modelBuilder.Entity("GiftShopDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("GiftShopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("GiftShopDatabaseImplement.Models.Client", "Client")
@@ -213,6 +249,8 @@ namespace GiftShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("GiftShopDatabaseImplement.Models.Client", b =>
                 {
+                    b.Navigation("MessageInfos");
+
                     b.Navigation("Orders");
                 });
 
