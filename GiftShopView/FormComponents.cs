@@ -3,16 +3,17 @@ using System.Windows.Forms;
 using GiftShopContracts.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
     public partial class FormComponents : Form
     {
-        private readonly ComponentLogic logic;
-        public FormComponents(ComponentLogic logic)
+        private readonly IComponentLogic _logic;
+        public FormComponents(IComponentLogic logic)
         {
             InitializeComponent();
-            this.logic = logic;
+            _logic = logic;
         }
 
         private void FormComponents_Load(object sender, EventArgs e)
@@ -24,14 +25,7 @@ namespace GiftShopView
         {
             try
             {
-                var list = logic.Read(null);
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(_logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
@@ -70,7 +64,7 @@ namespace GiftShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.Delete(new ComponentBindingModel { Id = id });
+                        _logic.Delete(new ComponentBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {

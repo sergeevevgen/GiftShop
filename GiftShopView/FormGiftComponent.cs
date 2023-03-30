@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using GiftShopContracts.ViewModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
@@ -13,7 +14,7 @@ namespace GiftShopView
         public string ComponentName { get { return comboBoxComponent.Text; } }
         public int Count { get { return Convert.ToInt32(textBoxCount.Text); } set { textBoxCount.Text = value.ToString(); } }
 
-        public FormGiftComponent(ComponentLogic logic)
+        public FormGiftComponent(IComponentLogic logic)
         {
             InitializeComponent();
             List<ComponentViewModel> list = logic.Read(null);

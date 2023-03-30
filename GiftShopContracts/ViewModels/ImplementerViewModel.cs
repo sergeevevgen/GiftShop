@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GiftShopContracts.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,12 +10,16 @@ namespace GiftShopContracts.ViewModels
 {
     public class ImplementerViewModel
     {
+        [Column(title: "Номер", width: 50)]
         public int Id { get; set; }
-        [DisplayName("ФИО сборщика")]
+
+        [Column(title: "ФИО сборщика", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string FIO { get; set; }
-        [DisplayName("Время отдыха")]
+
+        [Column(title: "Время отдыха", width: 50)]
         public int PauseTime { get; set; }
-        [DisplayName("Время работы")]
+
+        [Column(title: "Время работы", width: 50)]
         public int WorkingTime { get; set; }
     }
 }

@@ -1,16 +1,14 @@
-﻿using System.ComponentModel;
+﻿using GiftShopContracts.Attributes;
+using System.ComponentModel;
 
 namespace GiftShopContracts.ViewModels
 {
     public class ComponentViewModel
     {
-        /// <summary>
-        /// Компонент, требуемый для изготовления изделия
-        /// </summary>
-
+        [Column(title: "Номер", width: 50)]
         public int Id { get; set; }
-        [DisplayName("Название компонента")]
 
+        [Column(title: "Название компонента", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ComponentName { get; set; }
     }
 }

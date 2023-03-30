@@ -5,20 +5,21 @@ using GiftShopContracts.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using GiftShopContracts.ViewModels;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
     public partial class FormGift : Form
     {
         public int Id { set { id = value; } }
-        private readonly GiftLogic logic;
+        private readonly IGiftLogic logic;
         private int? id;
         private Dictionary<int, (string, int)> giftComponents;
 
-        public FormGift(GiftLogic service)
+        public FormGift(IGiftLogic logic)
         {
             InitializeComponent();
-            this.logic = service;
+            this.logic = logic;
         }
 
         private void FormGift_Load(object sender, EventArgs e)

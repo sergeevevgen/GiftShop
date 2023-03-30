@@ -3,14 +3,15 @@ using System.Windows.Forms;
 using GiftShopContracts.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
     public partial class FormGifts : Form
     {
-        private readonly GiftLogic logic;
+        private readonly IGiftLogic logic;
 
-        public FormGifts(GiftLogic logic)
+        public FormGifts(IGiftLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
@@ -25,15 +26,7 @@ namespace GiftShopView
         {
             try
             {
-                var list = logic.Read(null);
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[3].Visible = false;
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {

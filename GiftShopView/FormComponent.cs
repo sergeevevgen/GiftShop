@@ -3,16 +3,17 @@ using System.Windows.Forms;
 using GiftShopContracts.BindingModels;
 using GiftShopBusinessLogic.BusinessLogic;
 using Unity;
+using GiftShopContracts.BusinessLogicsContracts;
 
 namespace GiftShopView
 {
     public partial class FormComponent : Form
     {
         public int Id { set { id = value; } }
-        private readonly ComponentLogic logic;
+        private readonly IComponentLogic logic;
         private int? id;
 
-        public FormComponent(ComponentLogic logic)
+        public FormComponent(IComponentLogic logic)
         {
             InitializeComponent();
             this.logic = logic;

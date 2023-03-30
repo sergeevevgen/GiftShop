@@ -1,6 +1,8 @@
 ﻿using System;
 using GiftShopContracts.Enums;
 using System.ComponentModel;
+using GiftShopContracts.Attributes;
+using System.Runtime.Serialization;
 
 namespace GiftShopContracts.ViewModels
 {
@@ -10,6 +12,7 @@ namespace GiftShopContracts.ViewModels
 
     public class OrderViewModel
     {
+        [Column(title: "Номер", width: 50)]
         public int Id { get; set; }
 
         public int ClientId { get; set; }
@@ -18,28 +21,29 @@ namespace GiftShopContracts.ViewModels
 
         public int GiftId { get; set; }
 
-        [DisplayName("Клиент")]
+        [Column(title: "Клиент", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ClientFIO { get; set; }
 
-        [DisplayName("Сборщик")]
+        [Column(title: "Исполнитель", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [DataMember]
         public string ImplementerFIO { get; set; }
 
-        [DisplayName("Изделие")]
+        [Column(title: "Подарок", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string GiftName { get; set; }
 
-        [DisplayName("Количество")]
+        [Column(title: "Количество", width: 50)]
         public int Count { get; set; }
 
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 100)]
         public decimal Sum { get; set; }
 
-        [DisplayName("Статус")]
+        [Column(title: "Статус", width: 100)]
         public string Status { get; set; }
 
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100)]
         public DateTime DateCreate { get; set; }
 
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 100)]
         public DateTime? DateImplement { get; set; }
     }
 }
