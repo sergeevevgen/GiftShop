@@ -34,7 +34,6 @@ namespace GiftShopView
         [STAThread]
         static void Main()
         {
-            var container = BuildUnityContainer();
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 

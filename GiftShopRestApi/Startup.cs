@@ -60,8 +60,7 @@ namespace GiftShopRestApi
                 endpoints.MapControllers();
             });
 
-            var mailSender =
-            app.ApplicationServices.GetService<AbstractMailWorker>();
+            var mailSender = app.ApplicationServices.GetService<AbstractMailWorker>();
             mailSender.MailConfig(new MailConfigBindingModel
             {
                 MailLogin = Configuration?.GetSection("MailLogin")?.Value.ToString(),
