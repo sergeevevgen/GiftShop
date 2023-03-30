@@ -50,7 +50,7 @@ namespace GiftShopBusinessLogic.BussinessLogic
                 var dbsets = _backUpInfo.GetFullList();
                 // берем метод для сохранения (из базвого абстрактного класса)
                 MethodInfo method =
-               GetType().BaseType.GetTypeInfo().GetDeclaredMethod("SaveToFile");
+                GetType().GetTypeInfo().GetDeclaredMethod("SaveToFile");
                 foreach (var set in dbsets)
                 {
                     // создаем объект из класса для сохранения
@@ -77,10 +77,16 @@ namespace GiftShopBusinessLogic.BussinessLogic
         {
             var records = _backUpInfo.GetList<T>();
             var obj = new T();
+            //Xml
             var xmlSerializer = new XmlSerializer(typeof(List<T>));
             using var fs = new FileStream(string.Format("{0}/{1}.xml",
             folderName, obj.GetType().Name), FileMode.OpenOrCreate);
             xmlSerializer.Serialize(fs, records);
+            //Json
+            //var jsonFormatter = new DataContractJsonSerializer(typeof(List<T>));
+            //using var fs = new FileStream(string.Format("{0}/{1}.json",
+            //folderName, obj.GetType().Name), FileMode.OpenOrCreate);
+            //jsonFormatter.WriteObject(fs, records);
         }
     }
 }

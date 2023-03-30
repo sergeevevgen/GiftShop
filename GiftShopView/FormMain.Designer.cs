@@ -202,6 +202,7 @@ namespace GiftShopView
             this.создатьБекапToolStripMenuItem.Name = "создатьБекапToolStripMenuItem";
             this.создатьБекапToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
             this.создатьБекапToolStripMenuItem.Text = " Создать бекап";
+            this.создатьБекапToolStripMenuItem.Click += new System.EventHandler(this.создатьБекапToolStripMenuItem_Click);
             // 
             // FormMain
             // 
